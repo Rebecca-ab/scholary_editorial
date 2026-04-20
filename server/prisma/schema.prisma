@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String    @id @default(uuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  university   String?
+  createdAt    DateTime  @default(now())
+  notes        Note[]
+  ratings      Rating[]
+  comments     Comment[]
+}
+
+model Course {
+  id         String  @id @default(uuid())
+  name       String
+  code       String  @unique
+  department String
+  notes      Note[]
+}
+
+model Note {
+  id             String    @id @default(uuid())
+  title          String
+  description    String
+  filePath       String
+  fileType       String
+  pageCount      Int?
+  avgRating      Float     @default(0)
+  totalDownloads Int       @default(0)
+  createdAt      DateTime  @default(now())
+  user           User      @relation(fields: [userId], references: [id])
+  userId         String
+  course         Course    @relation(fields: [courseId], references: [id])
+  courseId       String
+  ratings        Rating[]
+  comments       Comment[]
+}
+
+model Rating {
+  id        String   @id @default(uuid())
+  score     Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  note      Note     @relation(fields: [noteId], references: [id])
+  noteId    String
+
+  @@unique([userId, noteId])
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  body      String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  note      Note     @relation(fields: [noteId], references: [id])
+  noteId    String
+}
