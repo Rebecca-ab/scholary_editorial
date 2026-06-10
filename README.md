@@ -1,3 +1,6 @@
+<img width="1910" height="895" alt="image" src="https://github.com/user-attachments/assets/5b25f1d6-24fb-4ada-b2ab-8759c5970774" />
+
+
 # Scholarly Editorial
 
 A full-stack academic note-sharing platform where students can upload, browse, rate, and comment on course notes.
